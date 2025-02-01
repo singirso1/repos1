@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Count by Country</title>
+    <style>
+        table { width: 50%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid black; padding: 10px; text-align: left; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Student Count by Country</h1>
+    <table id="studentTable">
+        <thead>
+            <tr><th>Country</th><th>Student Count</th></tr>
+        </thead>
+        <tbody>
+            <tr><td colspan="2">Loading data...</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+    async function fetchStudentData() {
+        try {
+            const response = await fetch('https://funtion-http.azurewebsites.net/api/HttpTrigger1?code=bZq5ZbsuXxfe9Qq4IRlR1EGswKfNsn3BOkeIBs8fEXuDAzFuea_iMQ%3D%3D');
+            if (!response.ok) throw new Error(⁠ HTTP error! Status: ${response.status ⁠);
+
+            const data = await response.json();
+            const tableBody = document.querySelector('#studentTable tbody');
+            tableBody.innerHTML = '';
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = ⁠ <td>${row.Country}</td><td>${row.StudentCount}</td> ⁠;
+                tableBody.appendChild(tr);
+            });
+        } catch (error) {
+            console.error('Error fetching student data:', error);
+            document.querySelector('#studentTable tbody').innerHTML = ⁠ <tr><td colspan="2">Error loading data</td></tr> ⁠;
+        }
+    }
+    fetchStudentData();
+    </script>
+</body>
+</html>
